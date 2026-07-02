@@ -19,7 +19,7 @@
     },
     {
       "parameters": {
-        "jsCode": "const body = $json.body;\nreturn [{\n  json: {\n    pesan: `🚨 *DARURAT AWAS!*\\n\\nSampah PENUH dan Gas BERBAHAYA terdeteksi secara bersamaan!\\n\\n📊 Kapasitas: ${body.persen}%\\n📏 Jarak sensor: ${body.jarak} cm\\n🔥 Gas: ${body.gas} ppm\\n\\n⚡ Segera periksa dan kosongkan tempat sampah!`\n  }\n}];"
+        "jsCode": "const body = $json.body;\nreturn [{\n  json: {\n    pesan: `\ud83d\udea8 *DARURAT AWAS!*\\n\\nSampah PENUH dan Gas BERBAHAYA terdeteksi secara bersamaan!\\n\\n\ud83d\udcca Kapasitas: ${body.persen}%\\n\ud83d\udccf Jarak sensor: ${body.jarak} cm\\n\ud83d\udd25 Gas: ${body.gas} ppm\\n\\n\u26a1 Segera periksa dan kosongkan tempat sampah!`\n  }\n}];"
       },
       "name": "Format Pesan - Penuh+Gas",
       "type": "n8n-nodes-base.code",
@@ -32,7 +32,7 @@
     },
     {
       "parameters": {
-        "jsCode": "const body = $json.body;\nreturn [{\n  json: {\n    pesan: `🗑️ *Sampah Penuh*\\n\\nTempat sampah sudah penuh, perlu segera diambil.\\n\\n📊 Kapasitas: ${body.persen}%\\n📏 Jarak sensor: ${body.jarak} cm\\n✅ Gas: Aman (${body.gas} ppm)`\n  }\n}];"
+        "jsCode": "const body = $json.body;\nreturn [{\n  json: {\n    pesan: `\ud83d\uddd1\ufe0f *Sampah Penuh*\\n\\nTempat sampah sudah penuh, perlu segera diambil.\\n\\n\ud83d\udcca Kapasitas: ${body.persen}%\\n\ud83d\udccf Jarak sensor: ${body.jarak} cm\\n\u2705 Gas: Aman (${body.gas} ppm)`\n  }\n}];"
       },
       "name": "Format Pesan - Penuh Saja",
       "type": "n8n-nodes-base.code",
@@ -45,7 +45,7 @@
     },
     {
       "parameters": {
-        "jsCode": "const body = $json.body;\nreturn [{\n  json: {\n    pesan: `⚠️ *Gas Berbahaya Terdeteksi!*\\n\\nKadar gas di tempat sampah melebihi batas aman.\\n\\n🔥 Gas: ${body.gas} ppm\\n✅ Kapasitas sampah: ${body.persen}% (belum penuh)\\n\\nSegera periksa kondisi tempat sampah!`\n  }\n}];"
+        "jsCode": "const body = $json.body;\nreturn [{\n  json: {\n    pesan: `\u26a0\ufe0f *Gas Berbahaya Terdeteksi!*\\n\\nKadar gas di tempat sampah melebihi batas aman.\\n\\n\ud83d\udd25 Gas: ${body.gas} ppm\\n\u2705 Kapasitas sampah: ${body.persen}% (belum penuh)\\n\\nSegera periksa kondisi tempat sampah!`\n  }\n}];"
       },
       "name": "Format Pesan - Gas Saja",
       "type": "n8n-nodes-base.code",
@@ -58,75 +58,66 @@
     },
     {
       "parameters": {
-        "chatId": "=1291020613",
-        "text": "={{$json.pesan}}",
-        "additionalFields": {
-          "parse_mode": "Markdown"
+        "method": "POST",
+        "url": "https://api.telegram.org/bot8968531618:AAGdkTRhS9PbsgUZrRSwP5GxvfXckfXMvXU/sendMessage",
+        "authentication": "none",
+        "sendBody": true,
+        "bodyContentType": "json",
+        "jsonBody": "{\n  \"chat_id\": 1291020613,\n  \"text\": $json.pesan,\n  \"parse_mode\": \"Markdown\"\n}",
+        "options": {
+          "timeout": 10000
         }
       },
       "name": "Kirim Telegram - Penuh+Gas",
-      "type": "n8n-nodes-base.telegram",
-      "typeVersion": 1.2,
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
       "position": [
         240,
         0
       ],
-      "id": "6227f22f-5e04-4a98-9730-50bc4dcf3956",
-      "webhookId": "b2041792-55b2-43c2-94ce-c53d87cb3b39",
-      "credentials": {
-        "telegramApi": {
-          "id": "T5twnBCiF8KWTqfJ",
-          "name": "Telegram account"
-        }
-      }
+      "id": "6227f22f-5e04-4a98-9730-50bc4dcf3956"
     },
     {
       "parameters": {
-        "chatId": "=1291020613",
-        "text": "={{$json.pesan}}",
-        "additionalFields": {
-          "parse_mode": "Markdown"
+        "method": "POST",
+        "url": "https://api.telegram.org/bot8968531618:AAGdkTRhS9PbsgUZrRSwP5GxvfXckfXMvXU/sendMessage",
+        "authentication": "none",
+        "sendBody": true,
+        "bodyContentType": "json",
+        "jsonBody": "{\n  \"chat_id\": 1291020613,\n  \"text\": $json.pesan,\n  \"parse_mode\": \"Markdown\"\n}",
+        "options": {
+          "timeout": 10000
         }
       },
       "name": "Kirim Telegram - Penuh Saja",
-      "type": "n8n-nodes-base.telegram",
-      "typeVersion": 1.2,
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
       "position": [
         240,
         160
       ],
-      "id": "d70a0083-7975-4f8d-9d97-7156000ba132",
-      "webhookId": "11a8a058-55ab-42af-b51b-92e4e99a2783",
-      "credentials": {
-        "telegramApi": {
-          "id": "T5twnBCiF8KWTqfJ",
-          "name": "Telegram account"
-        }
-      }
+      "id": "d70a0083-7975-4f8d-9d97-7156000ba132"
     },
     {
       "parameters": {
-        "chatId": "=1291020613",
-        "text": "={{$json.pesan}}",
-        "additionalFields": {
-          "parse_mode": "Markdown"
+        "method": "POST",
+        "url": "https://api.telegram.org/bot8968531618:AAGdkTRhS9PbsgUZrRSwP5GxvfXckfXMvXU/sendMessage",
+        "authentication": "none",
+        "sendBody": true,
+        "bodyContentType": "json",
+        "jsonBody": "{\n  \"chat_id\": 1291020613,\n  \"text\": $json.pesan,\n  \"parse_mode\": \"Markdown\"\n}",
+        "options": {
+          "timeout": 10000
         }
       },
       "name": "Kirim Telegram - Gas Saja",
-      "type": "n8n-nodes-base.telegram",
-      "typeVersion": 1.2,
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
       "position": [
         240,
         320
       ],
-      "id": "a6e40a93-adbe-4c98-8151-90957bcbf244",
-      "webhookId": "942c3402-9ea9-4da0-8e56-0fe13fcf042a",
-      "credentials": {
-        "telegramApi": {
-          "id": "T5twnBCiF8KWTqfJ",
-          "name": "Telegram account"
-        }
-      }
+      "id": "a6e40a93-adbe-4c98-8151-90957bcbf244"
     },
     {
       "parameters": {
@@ -433,10 +424,6 @@
     "executionOrder": "v1",
     "binaryMode": "separate",
     "availableInMCP": false
-  },
-  "versionId": "9bb99dc5-fdd3-4749-86ee-8d32bc74de86",
-  "meta": {
-    "instanceId": "00b8f83f023e859daacad78901575e5adc67dc7c9b0f88086b7e9c1c7332ad3d"
   },
   "nodeGroups": [],
   "id": "NIysIIi6nNGG1Kwb",
