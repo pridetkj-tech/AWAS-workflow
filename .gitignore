@@ -1,0 +1,18 @@
+# n8n
+database.sqlite
+*.db
+n8n-data/
+
+# Environment
+.env
+.env.local
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Editors
+.vscode/
+.idea/
+*.swp
+*.swo

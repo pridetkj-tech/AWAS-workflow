@@ -1,0 +1,444 @@
+{
+  "name": "AWAS - Notifikasi Sampah & Gas",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "28e38816-d623-4332-9d38-48f867690f0e",
+        "options": {}
+      },
+      "name": "Webhook",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 1,
+      "position": [
+        -912,
+        48
+      ],
+      "webhookId": "28e38816-d623-4332-9d38-48f867690f0e",
+      "id": "4340264f-4460-44e9-8aec-d2c1f5564a7d"
+    },
+    {
+      "parameters": {
+        "jsCode": "const body = $json.body;\nreturn [{\n  json: {\n    pesan: `🚨 *DARURAT AWAS!*\\n\\nSampah PENUH dan Gas BERBAHAYA terdeteksi secara bersamaan!\\n\\n📊 Kapasitas: ${body.persen}%\\n📏 Jarak sensor: ${body.jarak} cm\\n🔥 Gas: ${body.gas} ppm\\n\\n⚡ Segera periksa dan kosongkan tempat sampah!`\n  }\n}];"
+      },
+      "name": "Format Pesan - Penuh+Gas",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        0,
+        0
+      ],
+      "id": "533b7897-488b-402a-91f0-0bf913f5efc9"
+    },
+    {
+      "parameters": {
+        "jsCode": "const body = $json.body;\nreturn [{\n  json: {\n    pesan: `🗑️ *Sampah Penuh*\\n\\nTempat sampah sudah penuh, perlu segera diambil.\\n\\n📊 Kapasitas: ${body.persen}%\\n📏 Jarak sensor: ${body.jarak} cm\\n✅ Gas: Aman (${body.gas} ppm)`\n  }\n}];"
+      },
+      "name": "Format Pesan - Penuh Saja",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        0,
+        160
+      ],
+      "id": "25fde8e6-f12a-45f5-a0cc-1c8023fc3f1d"
+    },
+    {
+      "parameters": {
+        "jsCode": "const body = $json.body;\nreturn [{\n  json: {\n    pesan: `⚠️ *Gas Berbahaya Terdeteksi!*\\n\\nKadar gas di tempat sampah melebihi batas aman.\\n\\n🔥 Gas: ${body.gas} ppm\\n✅ Kapasitas sampah: ${body.persen}% (belum penuh)\\n\\nSegera periksa kondisi tempat sampah!`\n  }\n}];"
+      },
+      "name": "Format Pesan - Gas Saja",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        0,
+        320
+      ],
+      "id": "3029b10b-3a74-4192-a79a-b4de52e99729"
+    },
+    {
+      "parameters": {
+        "chatId": "=1291020613",
+        "text": "={{$json.pesan}}",
+        "additionalFields": {
+          "parse_mode": "Markdown"
+        }
+      },
+      "name": "Kirim Telegram - Penuh+Gas",
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        240,
+        0
+      ],
+      "id": "6227f22f-5e04-4a98-9730-50bc4dcf3956",
+      "webhookId": "b2041792-55b2-43c2-94ce-c53d87cb3b39",
+      "credentials": {
+        "telegramApi": {
+          "id": "T5twnBCiF8KWTqfJ",
+          "name": "Telegram account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "chatId": "=1291020613",
+        "text": "={{$json.pesan}}",
+        "additionalFields": {
+          "parse_mode": "Markdown"
+        }
+      },
+      "name": "Kirim Telegram - Penuh Saja",
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        240,
+        160
+      ],
+      "id": "d70a0083-7975-4f8d-9d97-7156000ba132",
+      "webhookId": "11a8a058-55ab-42af-b51b-92e4e99a2783",
+      "credentials": {
+        "telegramApi": {
+          "id": "T5twnBCiF8KWTqfJ",
+          "name": "Telegram account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "chatId": "=1291020613",
+        "text": "={{$json.pesan}}",
+        "additionalFields": {
+          "parse_mode": "Markdown"
+        }
+      },
+      "name": "Kirim Telegram - Gas Saja",
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        240,
+        320
+      ],
+      "id": "a6e40a93-adbe-4c98-8151-90957bcbf244",
+      "webhookId": "942c3402-9ea9-4da0-8e56-0fe13fcf042a",
+      "credentials": {
+        "telegramApi": {
+          "id": "T5twnBCiF8KWTqfJ",
+          "name": "Telegram account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "21c9627c-8e67-41dc-bdd6-b82dfc9d2adf",
+              "leftValue": "={{$json.body.statusSampah}}",
+              "rightValue": "PENUH",
+              "operator": {
+                "type": "string",
+                "operation": "equals",
+                "name": "filter.operator.equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        -496,
+        176
+      ],
+      "id": "5659db3f-f3d8-4a04-a197-eddd5e284c50",
+      "name": "If1"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "if2-condition",
+              "leftValue": "={{$json.body.statusGas}}",
+              "rightValue": "BERBAHAYA",
+              "operator": {
+                "type": "string",
+                "operation": "equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        -288,
+        336
+      ],
+      "id": "999b5ecc-c565-45b2-97fa-6880ed7af0e9",
+      "name": "If2"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "if-main-condition",
+              "leftValue": "={{$json.body.statusSampah}}",
+              "rightValue": "PENUH",
+              "operator": {
+                "type": "string",
+                "operation": "equals"
+              }
+            },
+            {
+              "id": "if-main-condition-2",
+              "leftValue": "={{$json.body.statusGas}}",
+              "rightValue": "BERBAHAYA",
+              "operator": {
+                "type": "string",
+                "operation": "equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        -672,
+        16
+      ],
+      "id": "736ef2fa-1280-4d39-a3df-3c9ad99451b8",
+      "name": "If"
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "leftValue": "",
+                    "rightValue": "",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    },
+                    "id": "5896c5e3-5a5a-4ed2-82cd-937ce9df7da3"
+                  }
+                ],
+                "combinator": "and"
+              }
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.4,
+      "position": [
+        672,
+        128
+      ],
+      "id": "ea0c5e04-24a8-462f-8c2a-3c7ec22c44e0",
+      "name": "Switch"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.5,
+      "position": [
+        880,
+        128
+      ],
+      "id": "3c359269-21d3-46d9-ab3a-98c579c91b40",
+      "name": "Respond to Webhook"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "If",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Format Pesan - Penuh+Gas": {
+      "main": [
+        [
+          {
+            "node": "Kirim Telegram - Penuh+Gas",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Format Pesan - Penuh Saja": {
+      "main": [
+        [
+          {
+            "node": "Kirim Telegram - Penuh Saja",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Format Pesan - Gas Saja": {
+      "main": [
+        [
+          {
+            "node": "Kirim Telegram - Gas Saja",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If1": {
+      "main": [
+        [
+          {
+            "node": "Format Pesan - Penuh Saja",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "If2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If2": {
+      "main": [
+        [
+          {
+            "node": "Format Pesan - Gas Saja",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If": {
+      "main": [
+        [
+          {
+            "node": "Format Pesan - Penuh+Gas",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "If1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Kirim Telegram - Penuh+Gas": {
+      "main": [
+        [
+          {
+            "node": "Switch",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Kirim Telegram - Penuh Saja": {
+      "main": [
+        [
+          {
+            "node": "Switch",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Kirim Telegram - Gas Saja": {
+      "main": [
+        [
+          {
+            "node": "Switch",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Switch": {
+      "main": [
+        [
+          {
+            "node": "Respond to Webhook",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate",
+    "availableInMCP": false
+  },
+  "versionId": "9bb99dc5-fdd3-4749-86ee-8d32bc74de86",
+  "meta": {
+    "instanceId": "00b8f83f023e859daacad78901575e5adc67dc7c9b0f88086b7e9c1c7332ad3d"
+  },
+  "nodeGroups": [],
+  "id": "NIysIIi6nNGG1Kwb",
+  "tags": []
+}
