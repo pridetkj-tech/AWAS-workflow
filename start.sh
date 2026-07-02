@@ -1,9 +1,11 @@
 #!/bin/sh
 
-# Import workflow setiap container start (aman dipanggil berulang kali)
-echo ">>> Importing workflow..."
-n8n import:workflow --input=/home/node/awas-workflow.json 2>&1 || echo ">>> Import skipped or already exists"
+# ============================================
+# AWAS n8n - Auto-import workflow on startup
+# ============================================
 
-# Start n8n
-echo ">>> Starting n8n..."
+echo "[AWAS] Importing workflow..."
+n8n import:workflow --input=/home/node/awas-workflow.json 2>&1
+
+echo "[AWAS] Starting n8n..."
 n8n start
