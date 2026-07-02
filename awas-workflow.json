@@ -63,7 +63,7 @@
         "authentication": "none",
         "sendBody": true,
         "bodyContentType": "json",
-        "jsonBody": "{\n  \"chat_id\": 1291020613,\n  \"text\": $json.pesan,\n  \"parse_mode\": \"Markdown\"\n}",
+        "jsonBody": "{\n  \"chat_id\": 1291020613,\n  \"text\": \"={{$json.pesan}}\",\n  \"parse_mode\": \"Markdown\"\n}",
         "options": {
           "timeout": 10000
         }
@@ -84,7 +84,7 @@
         "authentication": "none",
         "sendBody": true,
         "bodyContentType": "json",
-        "jsonBody": "{\n  \"chat_id\": 1291020613,\n  \"text\": $json.pesan,\n  \"parse_mode\": \"Markdown\"\n}",
+        "jsonBody": "{\n  \"chat_id\": 1291020613,\n  \"text\": \"={{$json.pesan}}\",\n  \"parse_mode\": \"Markdown\"\n}",
         "options": {
           "timeout": 10000
         }
@@ -105,7 +105,7 @@
         "authentication": "none",
         "sendBody": true,
         "bodyContentType": "json",
-        "jsonBody": "{\n  \"chat_id\": 1291020613,\n  \"text\": $json.pesan,\n  \"parse_mode\": \"Markdown\"\n}",
+        "jsonBody": "{\n  \"chat_id\": 1291020613,\n  \"text\": \"={{$json.pesan}}\",\n  \"parse_mode\": \"Markdown\"\n}",
         "options": {
           "timeout": 10000
         }
