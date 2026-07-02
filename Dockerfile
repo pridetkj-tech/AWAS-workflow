@@ -1,10 +1,17 @@
-FROM n8nio/n8n:latest
+FROM node:20-alpine
+
+RUN apk add --no-cache tini \
+    && npm install -g n8n \
+    && mkdir -p /home/node/.n8n/workflows \
+    && chown -R node:node /home/node
+
+USER node
+WORKDIR /home/node
 
 # Copy workflow
-COPY ./awas-workflow.json /home/node/.n8n/workflows/
+COPY --chown=node:node ./awas-workflow.json /home/node/.n8n/workflows/
 
-# Expose port
 EXPOSE 5678
 
-# Start n8n
+ENTRYPOINT ["/sbin/tini", "--"]
 CMD ["n8n", "start"]
