@@ -1,17 +1,14 @@
-FROM node:20-alpine
+FROM n8nio/n8n:latest
 
-RUN apk add --no-cache tini \
-    && npm install -g n8n \
-    && mkdir -p /home/node/.n8n/workflows \
-    && chown -R node:node /home/node
+USER root
+
+# Copy workflow & startup script
+COPY ./awas-workflow.json /home/node/awas-workflow.json
+COPY ./start.sh /start.sh
+RUN chmod +x /start.sh && chown node:node /home/node/awas-workflow.json
 
 USER node
-WORKDIR /home/node
-
-# Copy workflow
-COPY --chown=node:node ./awas-workflow.json /home/node/.n8n/workflows/
 
 EXPOSE 5678
 
-ENTRYPOINT ["/sbin/tini", "--"]
-CMD ["n8n", "start"]
+ENTRYPOINT ["/bin/sh", "/start.sh"]
