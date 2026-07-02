@@ -11,4 +11,4 @@ USER node
 
 EXPOSE 5678
 
-ENTRYPOINT ["/bin/sh", "/start.sh"]
+CMD ["/bin/sh", "/start.sh"]
