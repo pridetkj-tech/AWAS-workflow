@@ -1,7 +1,7 @@
 FROM n8nio/n8n:latest
 
 # Copy workflow
-COPY ./AWAS\ -\ Notifikasi\ Sampah\ &\ Gas\ \(5\).json /home/node/.n8n/workflows/
+COPY ./awas-workflow.json /home/node/.n8n/workflows/
 
 # Expose port
 EXPOSE 5678

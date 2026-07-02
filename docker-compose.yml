@@ -12,5 +12,5 @@ services:
       - TELEGRAM_BOT_TOKEN=${TELEGRAM_BOT_TOKEN}
     volumes:
       - ./n8n-data:/home/node/.n8n
-      - ./AWAS - Notifikasi Sampah & Gas (5).json:/home/node/.n8n/workflows/awas-workflow.json
+      - ./awas-workflow.json:/home/node/.n8n/workflows/awas-workflow.json
     command: n8n start
