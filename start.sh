@@ -11,7 +11,7 @@ N8N_PID=$!
 echo "[AWAS] Waiting for n8n API..."
 for i in $(seq 1 30); do
   sleep 2
-  if curl -sf http://localhost:5678/healthz > /dev/null 2>&1; then
+  if curl -s --max-time 2 http://localhost:5678/ > /dev/null 2>&1; then
     echo "[AWAS] n8n API ready!"
     break
   fi

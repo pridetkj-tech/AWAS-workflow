@@ -2,11 +2,15 @@ FROM n8nio/n8n:latest
 
 USER root
 
-# Copy workflow, credential & startup script
+# Install curl for API calls
+RUN apk add --no-cache curl
+
+# Copy workflow & startup script
 COPY ./awas-workflow.json /home/node/awas-workflow.json
-COPY ./telegram-credential.json /home/node/telegram-credential.json
 COPY ./start.sh /start.sh
-RUN chmod +x /start.sh && chown node:node /home/node/awas-workflow.json /home/node/telegram-credential.json /start.sh
+RUN chmod +x /start.sh && chown node:node /home/node/awas-workflow.json /start.sh
+
+USER node
 
 EXPOSE 5678
 
