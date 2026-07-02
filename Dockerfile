@@ -5,6 +5,9 @@ USER root
 # Install curl for API calls
 RUN apk add --no-cache curl
 
+# Force cache bust for v2
+ARG CACHE_BUST=1
+
 # Copy workflow & startup script
 COPY ./awas-workflow.json /home/node/awas-workflow.json
 COPY ./start.sh /start.sh
